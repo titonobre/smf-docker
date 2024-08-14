@@ -22,7 +22,7 @@ RUN install-php-extensions \
 # Download SMF
 RUN mkdir -p /var/www/html \
     && cd /var/www/html \
-    && wget -O smf_install.tar.gz "https://download.simplemachines.org/index.php/smf_2-1-2_install.tar.gz" \
+    && wget -O smf_install.tar.gz "https://download.simplemachines.org/index.php/smf_2-1-4_install.tar.gz" \
     && tar zxf smf_install.tar.gz
 
 # Set the permissions SMF wants. They say 777 suggested!
