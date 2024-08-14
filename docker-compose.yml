@@ -1,11 +1,13 @@
-version: '3'
 services:
   smf:
     build: smf
-    ports:
-      - "80:80"
     depends_on:
       - db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.smf.rule=Host(`localhost`)"
+      - "traefik.http.routers.smf.tls=true"
+      - "traefik.http.middlewares.smf.headers.contentSecurityPolicy=frame-src 'self' *;"
 
   setup:
     build: setup
@@ -32,8 +34,6 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.1.3
-    ports:
-      - 8000:80
     environment:
       - PMA_ARBITRARY=0
       - PMA_HOST=db
@@ -43,6 +43,30 @@ services:
       - db
     depends_on:
       - db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pma.rule=Host(`pma.app.example`)"
+      - "traefik.http.routers.pma.tls=true"
+
+  reverse-proxy:
+    image: traefik:v2.4.7
+    container_name: traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik=true"
+      - "traefik.http.routers.traefik.tls=true"
+      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+    ports:
+      - 80:80
+      - 443:443
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - ./traefik/dynamic_conf.yaml:/etc/traefik/dynamic_conf.yaml:ro
+      - ./traefik/traefik.yaml:/etc/traefik/traefik.yaml:ro
+      - ./certs:/etc/certs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 
 volumes:
   db-data:
