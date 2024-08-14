@@ -32,8 +32,20 @@ RUN chmod 777 \
     /var/www/html/custom_avatar \
     /var/www/html/cache \
     /var/www/html/Packages \
+    /var/www/html/Sources \
     /var/www/html/Smileys \
     /var/www/html/Themes \
     /var/www/html/agreement.txt \
     /var/www/html/Settings.php \
     /var/www/html/Settings_bak.php 
+
+RUN install-php-extensions \
+    zip
+
+ADD https://raw.githubusercontent.com/prasathmani/tinyfilemanager/2.4.7/tinyfilemanager.php /var/www/html/fm.php
+
+RUN sed -i 's/\$use_auth = true;/\$use_auth = false;/g' /var/www/html/fm.php
+
+RUN chmod -R 777 \
+    /var/www/html/fm.php \
+    /var/www/html/Themes
