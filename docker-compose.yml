@@ -5,7 +5,7 @@ services:
       - db
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.smf.rule=Host(`localhost`)"
+      - "traefik.http.routers.smf.rule=Host(`smf.app.example`)"
       - "traefik.http.routers.smf.tls=true"
       - "traefik.http.middlewares.smf.headers.contentSecurityPolicy=frame-src 'self' *;"
 
@@ -22,7 +22,7 @@ services:
       - DB_USER=root
       - DB_PASSWORD=${DB_PASSWORD:-password}
       - SMF_HOST=smf
-      - SMF_PUBLIC_URL=${SMF_PUBLIC_URL:-http://localhost}
+      - SMF_PUBLIC_URL=${SMF_PUBLIC_URL:-https://smf.app.example}
 
   db:
     image: mariadb:10.7.3-focal
