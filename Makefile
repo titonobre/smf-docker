@@ -14,15 +14,15 @@ start: certs
 
 # Runs the SMF configuration script
 setup:
-	docker-compose run --rm setup
+	docker compose run --rm setup
 
 # Stops the Docker containers
 stop:
-	docker-compose stop
+	docker compose stop
 
 # Destroys the Docker containers and volumes
 clean:
-	docker-compose down --remove-orphans --volumes
+	docker compose down --remove-orphans --volumes
 	rm -r ./certs
 
 certs:
