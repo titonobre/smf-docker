@@ -39,6 +39,7 @@ services:
       - PMA_HOST=db
       - PMA_USER=root
       - PMA_PASSWORD=${DB_PASSWORD:-password}
+      - UPLOAD_LIMIT=300M
     links:
       - db
     depends_on:
