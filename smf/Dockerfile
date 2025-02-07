@@ -1,4 +1,4 @@
-FROM php:8.1.4-apache-buster
+FROM php:8.3.11-apache-bullseye
 
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get -y upgrade \
